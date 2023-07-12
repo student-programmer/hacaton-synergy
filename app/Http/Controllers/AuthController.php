@@ -12,18 +12,16 @@ class AuthController extends Controller
     public function login(Request $request)
 	{
 		$data = $request->validate([
-			"nickname" => "required|string|min:15|max:15",
-			"password" => "required|string|min:20|max:20",
+			"nickname" => "required|string|min:6|max:15",
+			"password" => "required|string|min:8",
 			"role" => "required|string"
 		],
 		[
-			"nickname.required" => "Имя обязательно для заполнения",
-			"nickname.min" => "Длина имени 15 символов",
-			"nickname.max" => "Длина имени 15 символов",
-			"nickname.string" => "Имя должено быть строкой",
+			"nickname.required" => "Никнейм обязательно для заполнения",
+			"nickname.min" => "Длина никнейма 8 символов",
+			"nickname.string" => "Никнейм должен быть строкой",
 			"password.required" => "Пароль обязателен для заполнения",
-			"password.min" => "Длина пароля 20 символов",
-			"password.max" => "Длина пароля 20 символов",
+			"password.min" => "Длина пароля 8 символов",
 			"password.string" => "Пароль должен быть строкой",
 			"role.required" => "Роль обязательна для заполнения",
 			"role.string" => "Роль должна быть строкой"
@@ -40,24 +38,24 @@ class AuthController extends Controller
 					"success" => false,
 					"message" => "Пользователя с таким именем не существует"
 				],
-				400
+				404
 			)
 			->header("Content-Type", "application/json");
 		}
 
 		$correct_password = Hash::check($data["password"], $find_user->password);
 
-		// if (!$correct_password)
-		// {
-		// 	return response(
-		// 		[
-		// 			"success" => false,
-		// 			"message" => "Пароль неверен"
-		// 		],
-		// 		400
-		// 	)
-		// 	->header("Content-Type", "application/json");
-		// }
+		if (!$correct_password)
+		{
+			return response(
+				[
+					"success" => false,
+					"message" => "Пароль неверен"
+				],
+				400
+			)
+			->header("Content-Type", "application/json");
+		}
 
 		if (
 			$find_user->role !== "admin" && $data["role"] === "is-admin" ||
