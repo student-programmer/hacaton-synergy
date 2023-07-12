@@ -13,5 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'index');
-Route::view('/auth/login', 'auth.login');
+Route::view('/', 'index')->middleware('redirect_if_token_not_exist');
+Route::view('/auth/login', 'auth.login')->middleware('redirect_if_token_exist');

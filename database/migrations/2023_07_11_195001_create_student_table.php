@@ -19,6 +19,7 @@ return new class extends Migration
 				$table->string("second_name"); // фамилия
 				$table->string("patronymic"); // отчество
 				$table->string("password"); // пароль
+        $table->string("nickname")->unique(); // имя пользователя для входа
 				$table->timestamps();
 			});
 		}

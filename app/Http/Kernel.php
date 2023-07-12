@@ -63,6 +63,9 @@ class Kernel extends HttpKernel
         'precognitive' => \Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class,
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'redirect_if_token_not_exist' => \App\Http\Middleware\RedirectIfTokenNotExist::class,
+        'redirect_if_token_exist' => \App\Http\Middleware\RedirectIfTokenExist::class,
+        'check_token' => \App\Http\Middleware\CheckToken::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
 }
