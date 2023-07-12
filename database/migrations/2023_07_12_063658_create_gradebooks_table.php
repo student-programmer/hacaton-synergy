@@ -25,13 +25,13 @@ return new class extends Migration
 			});	
 		}
 
-		// Schema::table("gradebook", function (Blueprint $table) {
-		// 	$table->integer("student_id"); // студент (id)
-		// 	$table->integer("teacher_id"); // декан факультета (id)
+		Schema::table("gradebooks", function (Blueprint $table) {
+			$table->integer("student_id"); // студент (id)
+			$table->integer("teacher_id"); // декан факультета (id)
 			
-		// 	$table->foreign("student_id")->references("id")->on("students");
-		// 	$table->foreign("teacher_id")->references("id")->on("teachers");
-		// });
+			$table->foreign("student_id")->references("id")->on("students");
+			$table->foreign("teacher_id")->references("id")->on("teachers");
+		});
     }
 
     /**

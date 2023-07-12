@@ -14,14 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-<<<<<<< HEAD
-Route::view('/', 'index');
-Route::view('/auth/login', 'auth.login');
-
 Route::prefix("/auth")->group(function() {
 	Route::post("/login", [AuthController::class, "login"]);
 });
-=======
 Route::view('/', 'index')->middleware('redirect_if_token_not_exist');
 Route::view('/auth/login', 'auth.login')->middleware('redirect_if_token_exist');
->>>>>>> e9d8586dfa3ed38df43972d68a37aaaccd0bbc44
