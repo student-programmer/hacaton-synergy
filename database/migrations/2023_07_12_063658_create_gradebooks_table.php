@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable("gradebooks"))
+		if (!Schema::hasTable("gradebooks"))
 		{
 			Schema::create("gradebooks", function (Blueprint $table) {
 				$table->id();
@@ -20,18 +20,9 @@ return new class extends Migration
 				$table->string("specialization"); // специальность 
 				$table->date("date_of_issue"); // дата выдачи
 				$table->integer("num_course"); // номер курса
-				$table->string("password"); // пароль
 				$table->timestamps();
-			});	
+			});
 		}
-
-		Schema::table("gradebooks", function (Blueprint $table) {
-			$table->integer("student_id"); // студент (id)
-			$table->integer("teacher_id"); // декан факультета (id)
-			
-			$table->foreign("student_id")->references("id")->on("students");
-			$table->foreign("teacher_id")->references("id")->on("teachers");
-		});
     }
 
     /**
