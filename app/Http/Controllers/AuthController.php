@@ -16,8 +16,7 @@ class AuthController extends Controller
 		$data = $request->validate([
 			"nickname" => "required|string|min:15|max:15",
 			"password" => "required|string|min:20|max:20",
-			"is_teacher" => "boolean",
-			"is_admin" => "boolean"
+			"role" => "required|string"
 		],
 		[
 			"nickname.required" => "Имя обязательно для заполнения",
@@ -27,11 +26,13 @@ class AuthController extends Controller
 			"password.required" => "Пароль обязателен для заполнения",
 			"password.min" => "Длина пароля 20 символов",
 			"password.max" => "Длина пароля 20 символов",
-			"password.string" => "Пароль должен быть строкой"
+			"password.string" => "Пароль должен быть строкой",
+			"role.required" => "Роль обязательна для заполнения",
+			"role.string" => "Роль должна быть строкой"
 		]);
 
-		$is_teacher = $data["is_teacher"];
-		$is_admin = $data["is_admin"];
+		$is_teacher = $data["role"] === "is-teacher";
+		$is_admin = $data["role"] === "is-admin";
 		$payload_jwt = [];
 
 		// Учитель

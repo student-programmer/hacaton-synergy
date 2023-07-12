@@ -19,6 +19,16 @@
             </button>
         </div>
       </div>
+      <div class="mb-3">
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="checkbox-is-admin">
+          <label class="form-check-label" for="checkbox-is-admin">Войти как администратор</label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="checkbox-is-teacher">
+          <label class="form-check-label" for="checkbox-is-teacher">Войти как учитель</label>
+        </div>
+      </div>
     <button type="submit" class="btn btn-outline-success">Войти</button>
   </form>
 </div>
