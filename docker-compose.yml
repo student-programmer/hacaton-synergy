@@ -1,0 +1,56 @@
+# Use root/example as user/password credentials
+version: '3.7'
+
+services:
+
+    postgres:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_USER: adminer
+            POSTGRES_PASSWORD: a100b200
+            POSTGRES_DB: gradebook
+        ports:
+            - "7432:5432"
+            - "7433:5433"
+        volumes:
+            - ./.data/postgresql:/var/lib/postgresql
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8080:8080
+
+    app:
+        build:
+            dockerfile: ./.docker/php/Dockerfile
+            context: .
+        container_name: app
+        restart: always
+        ports:
+            - 9000:9000
+        volumes:
+            - ./:/var/www/html
+        environment:
+            SERVICE_NAME: app
+            SERVICE_TAGS: dev
+            COMPOSER_MEMORY_LIMIT: -1
+            XDEBUG_CONFIG: remote_host=host.docker.internal
+            PHP_IDE_CONFIG: "serverName=Docker"
+            max_execution_time: 1000
+            memory_limit: 1027M
+
+    nginx:
+        image: nginx:latest
+        restart: always
+        ports:
+            - 81:81
+            - 444:444
+        volumes:
+            - ./:/var/www/html
+            - ./.docker/host:/etc/nginx/conf.d
+            - ./.data/ssl:/ssl
+            - ./.data/logs/nginx:/var/logs/nginx
+        environment:
+            XDEBUG_CONFIG: remote_host=host.docker.internal
