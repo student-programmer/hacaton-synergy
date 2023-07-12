@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-		if (!Schema::hasTable("admin"))
+        if (!Schema::hasTable("teachers"))
 		{
-			Schema::create('admin', function (Blueprint $table) {
+			Schema::create("teachers", function (Blueprint $table) {
 				$table->id();
-				$table->string("nickname")->unique(); // никнейм для входа
+				$table->string("first_name"); // имя
+				$table->string("second_name"); // фамилия
+				$table->string("patronymic"); // отчество
+				$table->string("nickname")->unique(); // ник для входа
+				$table->json("gradebook_ids")->default("[]"); // зачетные книжки (ids)
 				$table->string("password"); // пароль
 				$table->timestamps();
 			});
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admin');
+        Schema::dropIfExists('teachers');
     }
 };

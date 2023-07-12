@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-		if (!Schema::hasTable("student"))
+        if (!Schema::hasTable("students"))
 		{
-			Schema::create("student", function (Blueprint $table) {
+			Schema::create("students", function (Blueprint $table) {
 				$table->id();
+				$table->string("nickname")->unique(); // ник для входа
 				$table->string("first_name"); // имя
 				$table->string("second_name"); // фамилия
 				$table->string("patronymic"); // отчество
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('student');
+        Schema::dropIfExists('students');
     }
 };

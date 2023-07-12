@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-		if (!Schema::hasTable("gradebook"))
+        if (!Schema::hasTable("gradebooks"))
 		{
-			Schema::create("gradebook", function (Blueprint $table) {
+			Schema::create("gradebooks", function (Blueprint $table) {
 				$table->id();
 				$table->integer("num")->unique(); // номер
 				$table->string("faculty"); // факультет
@@ -29,8 +29,8 @@ return new class extends Migration
 		// 	$table->integer("student_id"); // студент (id)
 		// 	$table->integer("teacher_id"); // декан факультета (id)
 			
-		// 	$table->foreign("student_id")->references("id")->on("student");
-		// 	$table->foreign("teacher_id")->references("id")->on("teacher");
+		// 	$table->foreign("student_id")->references("id")->on("students");
+		// 	$table->foreign("teacher_id")->references("id")->on("teachers");
 		// });
     }
 
@@ -39,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('gradebook');
+        Schema::dropIfExists('gradebooks');
     }
 };
