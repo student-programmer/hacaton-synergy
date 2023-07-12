@@ -74,16 +74,14 @@ class AuthController extends Controller
 			->header("Content-Type", "application/json");
 		}
 
-		$payload_jwt["is_teacher"] = false;
-		$payload_jwt["is_admin"] = true;
+		$payload_jwt["is_teacher"] = $find_user->role === "teacher";
+		$payload_jwt["is_admin"] = (bool) $find_user->role === "admin";
 		$payload_jwt["id"] = $find_user->id;
-
 		$payload_jwt["exp"] = time() + 3600;
 		$payload_jwt["iat"] = time();
 		$payload_jwt["iss"] = "localhost";
 
 		$secret = "sec!ReT423*&";
-
 		$token = Token::customPayload($payload_jwt, $secret);
 
 		return response(
