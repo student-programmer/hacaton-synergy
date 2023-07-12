@@ -53,6 +53,8 @@ class CheckToken
             $request->is_authenticated = $user_is_exist;
             $request->user_id = $user_id;
             $request->user = $find_user;
+            $request->is_admin = $is_admin;
+            $request->is_teacher = $is_teacher;
         }
 
         return $next($request);
