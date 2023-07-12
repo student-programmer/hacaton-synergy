@@ -15,7 +15,11 @@ class RedirectIfTokenExist
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $token = $request->cookie('token');
+        if (!array_key_exists('token', $_COOKIE)) {
+            return $next($request);
+        }
+
+        $token = $_COOKIE['token'];
 
         if ($token) {
             return redirect('/');

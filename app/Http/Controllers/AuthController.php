@@ -29,7 +29,9 @@ class AuthController extends Controller
 
 		$payload_jwt = [];
 
-		$find_user = User::where("nickname", $data["nickname"])->first();
+		$find_user = User::where("nickname", $data["nickname"])
+			->where('role', $data["role"])
+			->first();
 
 		if (!$find_user)
 		{
@@ -57,23 +59,8 @@ class AuthController extends Controller
 			->header("Content-Type", "application/json");
 		}
 
-		if (
-			$find_user->role !== "admin" && $data["role"] === "is-admin" ||
-			$find_user->role !== "teacher" && $data["role"] === "is-teacher"
-		)
-		{
-			return response(
-				[
-					"success" => false,
-					"message" => "Доступ закрыт"
-				],
-				400
-			)
-			->header("Content-Type", "application/json");
-		}
-
-		$payload_jwt["is_teacher"] = $find_user->role === "teacher";
-		$payload_jwt["is_admin"] = $find_user->role === "admin";
+		$payload_jwt["is_teacher"] = $find_user->role === "is-teacher";
+		$payload_jwt["is_admin"] = $find_user->role === "is-admin";
 		$payload_jwt["id"] = $find_user->id;
 		$payload_jwt["exp"] = time() + 3600;
 		$payload_jwt["iat"] = time();
@@ -84,7 +71,7 @@ class AuthController extends Controller
 
 		return response(
 			[
-				"success" => false,
+				"success" => true,
 				"message" => "Выполнен вход",
 				"token" => $token
 			],

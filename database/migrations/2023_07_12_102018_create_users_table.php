@@ -11,18 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-		if (!Schema::hasTable("users"))
-		{
-			Schema::create('users', function (Blueprint $table) {
-				$table->id();
-				$table->string("nickname")->unique(); // ник для входа 
-				$table->string("first_name"); // имя
-				$table->string("second_name"); // фамилия
-				$table->string("patronymic"); // отчество
-				$table->string("password"); // пароль
-				$table->timestamps();
-			});
-		}
+      if (!Schema::hasTable("users"))
+      {
+        Schema::create('users', function (Blueprint $table) {
+          $table->id();
+          $table->string("nickname")->unique(); // ник для входа 
+          $table->string("first_name"); // имя
+          $table->string("second_name"); // фамилия
+          $table->string("patronymic"); // отчество
+          $table->string("password"); // пароль
+          $table->string("role"); // роль
+          $table->timestamps();
+        });
+      }
     }
 
     /**

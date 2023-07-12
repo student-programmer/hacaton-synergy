@@ -22,21 +22,19 @@ import changeStatePasswordType from "./changeStatePasswordType";
             .login(fd)
             .then(({ success, message, token, }) => {
                 alert.classList.remove("d-none");
-                alert.classList.add(success ? "alert-success" : "alert-danger");
                 alert.textContent = message;
 
-                if (!success) {
+                if (success) {
+                    alert.classList.add("alert-success")
+                    alert.classList.remove("alert-danger");
+                } else {
+                    alert.classList.remove("alert-success")
+                    alert.classList.add("alert-danger");
                     return;
                 }
 
-                Promise((res) => {
-                    setTimeout(() => {
-                        Cookie.set("token", token);
-                        res();
-                    }, 0);
-                }).then(() => {
-                    window.location.push("/");
-                });
+                Cookie.set("token", token);
+                window.location.href = "/";
             }).catch((err) => {
                 throw err;
             });

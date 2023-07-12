@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\GradebookController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,13 @@ Route::prefix("/auth")->group(function() {
 // Gradebook
 Route::prefix("/gradebook")->group(function() {
 	Route::post("/create", [GradebookController::class, "create"])->middleware("check_token");
+});
+
+Route::prefix("/user")->group(function() {
+	Route::get("/add", [UserController::class, 'renderAddPage'])
+		->middleware("redirect_if_token_not_exist");
+
+	Route::post('/create', [UserController::class, 'create']);
 });
 
 Route::view('/', 'index')->middleware('redirect_if_token_not_exist');

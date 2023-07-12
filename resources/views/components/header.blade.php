@@ -1,3 +1,43 @@
+<?php
+use ReallySimpleJWT\Parse;
+use ReallySimpleJWT\Decode;
+use ReallySimpleJWT\Jwt;
+
+$token = $_COOKIE['token'];
+$jwt = new Jwt($token);
+$parse = new Parse($jwt, new Decode());
+$parsed = $parse->parse();
+
+$token_data = $parsed->getPayload();
+
+$default_nav = [
+  'home' => ['route' => '/', 'name' => 'Главная'],
+  'profile' => ['route' => '/profile', 'name' => 'Профиль'],
+];
+
+$nav_for_teacher = array_merge(
+    $default_nav,
+    [
+      'add' => ['route' => '/gradebook/add', 'name' => 'Добавить зачетную книжку']
+    ]
+  );
+
+$nav_for_admin = array_merge(
+  $default_nav,
+  [
+    'add' => ['route' => '/user/add', 'name' => 'Добавить пользователя']
+  ]
+);
+
+$main_nav = $default_nav;
+
+if ($token_data['is_admin']) {
+  $main_nav = $nav_for_admin;
+} else if ($token_data['is_teacher']) {
+  $main_nav = $nav_for_teacher;
+}
+?>
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Navbar</a>
@@ -6,18 +46,11 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled">Disabled</a>
-          </li>
+          @foreach ($main_nav as $item)
+            <li class="nav-item">
+              <a class="nav-link {{ request()->is($item['route'].'/*') ? 'active' : null }} }}" href="{{ $item['route'] }}">{{ $item['name'] }}</a>
+            </li>
+          @endforeach
         </ul>
       </div>
     </div>
