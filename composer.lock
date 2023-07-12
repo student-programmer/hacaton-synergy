@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "66086d1f8093492fce1ab32a08247047",
+
+    "content-hash": "aa322c53454393ed775cfe4807d54a50",
     "packages": [
         {
             "name": "brick/math",
@@ -975,6 +976,7 @@
             "time": "2021-10-07T12:57:01+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "inertiajs/inertia-laravel",
             "version": "v0.6.9",
             "source": {
@@ -1058,6 +1060,19 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/6f89a2b74b232d8bf2e1d9ed87e311841263dfcb",
                 "reference": "6f89a2b74b232d8bf2e1d9ed87e311841263dfcb",
+=======
+            "name": "laravel/framework",
+            "version": "v10.15.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "c7599dc92e04532824bafbd226c2936ce6a905b8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/c7599dc92e04532824bafbd226c2936ce6a905b8",
+                "reference": "c7599dc92e04532824bafbd226c2936ce6a905b8",
+>>>>>>> origin/dev
                 "shasum": ""
             },
             "require": {
@@ -1244,7 +1259,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
+<<<<<<< HEAD
             "time": "2023-06-28T14:25:16+00:00"
+=======
+            "time": "2023-07-11T13:43:52+00:00"
+>>>>>>> origin/dev
         },
         {
             "name": "laravel/sanctum",
@@ -5310,6 +5329,7 @@
             "time": "2023-06-21T12:08:28+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "tightenco/ziggy",
             "version": "v1.6.0",
             "source": {
@@ -5377,6 +5397,8 @@
             "time": "2023-05-12T20:08:56+00:00"
         },
         {
+=======
+>>>>>>> origin/dev
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "2.2.6",
             "source": {
@@ -5838,6 +5860,7 @@
             "time": "2020-07-09T08:09:16+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "laravel/breeze",
             "version": "v1.21.1",
             "source": {
@@ -5911,6 +5934,19 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/pint/zipball/c472786bca01e4812a9bb7933b23edfc5b6877b7",
                 "reference": "c472786bca01e4812a9bb7933b23edfc5b6877b7",
+=======
+            "name": "laravel/pint",
+            "version": "v1.10.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/pint.git",
+                "reference": "f56798088068af8bd75a8f2c4ecae022990fdf75"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/f56798088068af8bd75a8f2c4ecae022990fdf75",
+                "reference": "f56798088068af8bd75a8f2c4ecae022990fdf75",
+>>>>>>> origin/dev
                 "shasum": ""
             },
             "require": {
@@ -5921,7 +5957,11 @@
                 "php": "^8.1.0"
             },
             "require-dev": {
+<<<<<<< HEAD
                 "friendsofphp/php-cs-fixer": "^3.18.0",
+=======
+                "friendsofphp/php-cs-fixer": "^3.21.1",
+>>>>>>> origin/dev
                 "illuminate/view": "^10.5.1",
                 "laravel-zero/framework": "^10.0.2",
                 "mockery/mockery": "^1.5.1",
@@ -5963,6 +6003,7 @@
                 "issues": "https://github.com/laravel/pint/issues",
                 "source": "https://github.com/laravel/pint"
             },
+<<<<<<< HEAD
             "time": "2023-06-20T15:55:03+00:00"
         },
         {
@@ -5977,6 +6018,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/sail/zipball/a2e046f748e87d3ef8b2b381e0e5c5a11f34e46b",
                 "reference": "a2e046f748e87d3ef8b2b381e0e5c5a11f34e46b",
+=======
+            "time": "2023-07-11T15:18:27+00:00"
+        },
+        {
+            "name": "laravel/sail",
+            "version": "v1.23.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/sail.git",
+                "reference": "62582606f80466aa81fba40b193b289106902853"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/62582606f80466aa81fba40b193b289106902853",
+                "reference": "62582606f80466aa81fba40b193b289106902853",
+>>>>>>> origin/dev
                 "shasum": ""
             },
             "require": {
@@ -6028,7 +6085,11 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
+<<<<<<< HEAD
             "time": "2023-06-16T21:20:12+00:00"
+=======
+            "time": "2023-06-28T18:31:28+00:00"
+>>>>>>> origin/dev
         },
         {
             "name": "mockery/mockery",
