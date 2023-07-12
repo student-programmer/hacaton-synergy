@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Teacher;
-use App\Models\Admin;
-use App\Models\Student;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use ReallySimpleJWT\Token;
 
@@ -31,117 +29,54 @@ class AuthController extends Controller
 			"role.string" => "Роль должна быть строкой"
 		]);
 
-		$is_teacher = $data["role"] === "is-teacher";
-		$is_admin = $data["role"] === "is-admin";
 		$payload_jwt = [];
 
-		// Учитель
-		if ($is_teacher && !$is_admin)
+		$find_user = User::where("nickname", $data["nickname"])->first();
+
+		if (!$find_user)
 		{
-			$find_teacher = Teacher::where("nickname", $data["nickname"])->first();
-
-			if (!$find_teacher)
-			{
-				return response(
-					[
-						"success" => false,
-						"message" => "Учитель с таким именем не существует"
-					],
-					400
-				)
-				->header("Content-Type", "application/json");
-			}
-
-			$correct_password = Hash::check($data["password"], $find_teacher->password);
-
-			if (!$correct_password)
-			{
-				return response(
-					[
-						"success" => false,
-						"message" => "Пароль неверен"
-					],
-					400
-				)
-				->header("Content-Type", "application/json");
-			}
-
-			$payload_jwt["is_admin"] = false;
-			$payload_jwt["is_teacher"] = true;
-			$payload_jwt["id"] = $find_teacher->id;
+			return response(
+				[
+					"success" => false,
+					"message" => "Пользователя с таким именем не существует"
+				],
+				400
+			)
+			->header("Content-Type", "application/json");
 		}
 
-		// Админ
-		if ($is_admin && !$is_teacher)
+		$correct_password = Hash::check($data["password"], $find_user->password);
+
+		if (!$correct_password)
 		{
-			$find_admin = Admin::where("nickname", $data["nickname"])->first();
-
-			if (!$find_admin)
-			{
-				return response(
-					[
-						"success" => false,
-						"message" => "Админ с таким именем не существует"
-					],
-					400
-				)
-				->header("Content-Type", "application/json");
-			}
-
-			$correct_password = Hash::check($data["password"], $find_admin->password);
-
-			if (!$correct_password)
-			{
-				return response(
-					[
-						"success" => false,
-						"message" => "Пароль неверен"
-					],
-					400
-				)
-				->header("Content-Type", "application/json");
-			}
-
-			$payload_jwt["is_teacher"] = false;
-			$payload_jwt["is_admin"] = true;
-			$payload_jwt["id"] = $find_admin->id;
+			return response(
+				[
+					"success" => false,
+					"message" => "Пароль неверен"
+				],
+				400
+			)
+			->header("Content-Type", "application/json");
 		}
 
-		// Ученик
-		if (!$is_teacher && !$is_admin)
+		if (
+			$find_user->role !== "admin" && $data["role"] === "is-admin" ||
+			$find_user->role !== "teacher" && $data["role"] === "is-teacher"
+		)
 		{
-			$find_student = Student::where("nickname", $data["nickname"])->first();
-
-			if (!$find_student)
-			{
-				return response(
-					[
-						"success" => false,
-						"message" => "Студент с таким именем не существует"
-					],
-					400
-				)
-				->header("Content-Type", "application/json");
-			}
-
-			$correct_password = Hash::check($data["password"], $find_student->password);
-
-			if (!$correct_password)
-			{
-				return response(
-					[
-						"success" => false,
-						"message" => "Пароль неверен"
-					],
-					400
-				)
-				->header("Content-Type", "application/json");
-			}
-
-			$payload_jwt["is_teacher"] = false;
-			$payload_jwt["is_admin"] = false;
-			$payload_jwt["id"] = $find_student->id;
+			return response(
+				[
+					"success" => false,
+					"message" => "Доступ закрыт"
+				],
+				400
+			)
+			->header("Content-Type", "application/json");
 		}
+
+		$payload_jwt["is_teacher"] = false;
+		$payload_jwt["is_admin"] = true;
+		$payload_jwt["id"] = $find_user->id;
 
 		$payload_jwt["exp"] = time() + 3600;
 		$payload_jwt["iat"] = time();

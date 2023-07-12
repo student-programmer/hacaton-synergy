@@ -12,14 +12,10 @@ class Gradebook extends Model
 	use HasApiTokens, HasFactory, Notifiable;
 
 	protected $guarded = false;
+	protected $fillable = [];
 
-	public function student()
+	public function user()
 	{
-		return $this->belongsTo(Student::class);
-	}
-
-	public function teacher()
-	{
-		return $this->belongsTo(Teacher::class);
+		return $this->belongsTo(User::class);
 	}
 }

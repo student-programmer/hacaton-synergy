@@ -11,6 +11,7 @@ use ReallySimpleJWT\Decode;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\Admin;
+use ReallySimpleJWT\Token;
 
 class CheckToken
 {
@@ -23,15 +24,19 @@ class CheckToken
     {
         $auth_header = $request->header('Authorization') ?? '';
         $token = str_replace('Bearer ', '', $auth_header);
+		
+		$secret = "sec!ReT423*&";
+		
+		$validate_token = Token::validate($token, $secret);
+
+		if (!$validate_token) return $next($request);
         
-        $jwt = new Jwt($token);
-        $parse = new Parse($jwt, new Decode());
-        $token_data = $parse->parse();
-        
+		$token_data = Token::getPayload($token);
+
         if ($token_data) {
             $is_teacher = $token_data['is_teacher'];
             $is_admin = $token_data['is_admin'];
-            $user_id = $token_data['user_id'];
+            $user_id = $token_data['id'];
 
             $user_is_exist = false;
             $find_user = null;
@@ -50,11 +55,13 @@ class CheckToken
                 $user_is_exist = (bool) $find_user;
             }
 
-            $request->is_authenticated = $user_is_exist;
-            $request->user_id = $user_id;
-            $request->user = $find_user;
-            $request->is_admin = $is_admin;
-            $request->is_teacher = $is_teacher;
+			$request->merge([
+				"is_authenticated" => $user_is_exist,
+				"user_id" => $user_id,
+				"user" => $find_user,
+				"is_admin" => $is_admin,
+				"is_teacher" => $is_teacher,
+			]);
         }
 
         return $next($request);

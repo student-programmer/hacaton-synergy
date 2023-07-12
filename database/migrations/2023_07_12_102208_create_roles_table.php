@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable("admins"))
-		{
-			Schema::create('admins', function (Blueprint $table) {
-				$table->id();
-				$table->string("nickname")->unique(); // никнейм для входа
-				$table->string("password"); // пароль
-				$table->timestamps();
-			});
-		}
+		Schema::create('roles', function (Blueprint $table) {
+			$table->id();
+			$table->string("name")->unique();
+			$table->timestamps();
+		});
     }
 
     /**
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('roles');
     }
 };

@@ -7,14 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Student extends Model
+class User extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
 	protected $guarded = false;
+	protected $fillable = [];
 
-	public function gradebook()
+	public function role()
 	{
-		return $this->belongsTo(Gradebook::class);
+		return $this->belongsTo(Role::class);
 	}
 }
