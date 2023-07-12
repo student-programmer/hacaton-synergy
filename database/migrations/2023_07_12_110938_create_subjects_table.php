@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
+            $table->string('title')->index()
+                ->nullable(false)->comment('Наименование предмета');
+            $table->enum('exam_type', ['pass', 'scoring'])
+                ->index()->nullable(false)->comment('Тип экзамена оценка или зачёт');
             $table->timestamps();
         });
     }
