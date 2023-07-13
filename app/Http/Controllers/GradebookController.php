@@ -62,7 +62,7 @@ class GradebookController extends Controller
 		}
 
 		$find_student = User::where('nickname', $data['nickname'])
-			->where('role', 'user')->first();
+			->where('role', 'student')->first();
 
 		if (!$find_student)
 		{
