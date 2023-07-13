@@ -115,7 +115,7 @@ class GradebookController extends Controller
         }
 
         $token = $_COOKIE['token'];
-		$secret = "sec!ReT423*&";
+		$secret = env("JWT_KEY");
 		$validate_token = Token::validate($token, $secret);
 
 		if (!$validate_token) return $next($request);
@@ -171,9 +171,9 @@ class GradebookController extends Controller
 
 		$find_gradebook = Gradebook::where("num", $data["num"])->first();
 
-		if (!$find_gradebook)
+		if ($find_gradebook)
 		{
-			return response(['success' => false, 'message' => 'Книжка по такому номеру не существует'], 403)
+			return response(['success' => false, 'message' => 'Книжка по такому номеру уже существует'], 403)
 				->header('Content-Type', 'application/json');
 		}
 
@@ -187,10 +187,12 @@ class GradebookController extends Controller
 
 		unset($data["nickname"]);
 
-		$find_gradebook->fill($data);
-		$find_gradebook->save();
+		$current_fradebook = Gradebook::where("id", $id)->first();
+
+		$current_fradebook->fill($data);
+		$current_fradebook->save();
 	
-		return response(['success' => true, 'message' => 'Книжка обновлена', 'gradebook' => $find_gradebook], 200)
+		return response(['success' => true, 'message' => 'Книжка обновлена'], 200)
 				->header('Content-Type', 'application/json');
 	}
 
@@ -198,11 +200,36 @@ class GradebookController extends Controller
 	{
 		$gradebook = Gradebook::where("id", $id)->first();
 
-		return view('change', ['gradebook' => $gradebook]);
+		if (!$gradebook) return abort(404);
+		
+		$student = User::where("id", $gradebook->student_id)->first();
+
+		return view('change', ['gradebook' => $gradebook, "student" => $student]);
 	}
 
 	public function delete(Request $request, string $id)
 	{
-		
+		if (!$request->is_teacher && !$request->is_admin) {
+			return response(['success' => false, 'message' => 'У вас нет доступа к данной операции'], 403)
+				->header('Content-Type', 'application/json');
+		}
+
+		if (!$request->is_authenticated) {
+			return response(['success' => false, 'message' => 'Для выполнения следующей операции необходимо авторизоваться'], 403)
+				->header('Content-Type', 'application/json');
+		}
+
+		$find_gradebook = Gradebook::where("id", $id)->first();
+
+		if (!$find_gradebook)
+		{
+			return response(['success' => false, 'message' => 'Зачетной книжки не существует'], 403)
+				->header('Content-Type', 'application/json');
+		}
+
+		$find_gradebook->delete();
+
+		return response(['success' => true, 'message' => 'Книжка удалена'], 200)
+				->header('Content-Type', 'application/json');
 	}
 }

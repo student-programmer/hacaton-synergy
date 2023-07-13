@@ -15,7 +15,7 @@ class UserController extends Controller
         }
 
         $token = $_COOKIE['token'];
-		$secret = "sec!ReT423*&";
+		$secret = env("JWT_KEY");
 		$validate_token = Token::validate($token, $secret);
 
 		if (!$validate_token) return $next($request);
@@ -35,7 +35,7 @@ class UserController extends Controller
         }
 
         $token = $_COOKIE['token'];
-		$secret = "sec!ReT423*&";
+		$secret = env("JWT_KEY");
 		$validate_token = Token::validate($token, $secret);
 
 		if (!$validate_token) return $next($request);

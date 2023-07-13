@@ -1,24 +1,26 @@
 import Request from "./Request";
 
 class Gradebook extends Request {
-    constructor() {
-        super();
-    }
+	constructor() {
+		super();
+	}
 
-    create(fd, token) {
-        const url = `${this.HOST}/gradebook/create`;
-        const options = { body: fd, headers: { Authorization: `Bearer ${token}`, }, };
+	create(fd, token) {
+		const url = `${this.HOST}/gradebook/create`;
+		const options = { body: fd, headers: { Authorization: `Bearer ${token}`, }, };
 
-        return this.send(url, "POST", options);
-    }
-    change(fd, token){
-        const url = `${this.HOST}/gradebook/change`;
-        const options = {
-            body: fd,
-            headers: { Authorization: `Bearer ${token}` },
-        };
-        return this.send(url, "POST", options);
-    }
+		return this.send(url, "POST", options);
+	}
+
+	change(fd, token, id) {
+		const url = `${this.HOST}/gradebook/change/${id}`;
+
+		const options = {
+			body: fd,
+			headers: { Authorization: `Bearer ${token}` },
+		};
+		return this.send(url, "POST", options);
+	}
 }
 
 export default Gradebook;

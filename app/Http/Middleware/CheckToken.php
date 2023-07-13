@@ -20,7 +20,7 @@ class CheckToken
         $auth_header = $request->header('Authorization') ?? '';
         $token = str_replace('Bearer ', '', $auth_header);
 		
-		$secret = "sec!ReT423*&";
+		$secret = env("JWT_KEY");
 		
 		$validate_token = Token::validate($token, $secret);
 

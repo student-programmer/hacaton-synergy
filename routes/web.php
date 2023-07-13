@@ -39,7 +39,9 @@ Route::prefix("/gradebook")->group(function() {
 
 
 Route::prefix("/gradebook")->group(function() {
-	Route::post("/change", [GradebookController::class, "create"])
+	Route::post("/create", [GradebookController::class, "create"])
+		->middleware("check_token");
+	Route::post("/change/{id}", [GradebookController::class, "update"])
 		->middleware("check_token");
 
 	Route::get('/edit/{id}', [GradeBookController::class, "renderEditPage"])
