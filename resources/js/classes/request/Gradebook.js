@@ -7,17 +7,28 @@ class Gradebook extends Request {
 
     create(fd, token) {
         const url = `${this.HOST}/gradebook/create`;
-        const options = { body: fd, headers: { Authorization: `Bearer ${token}`, }, };
+        const options = {
+            body: fd,
+            headers: { Authorization: `Bearer ${token}` },
+        };
 
         return this.send(url, "POST", options);
     }
-    change(fd, token){
+    change(fd, token) {
         const url = `${this.HOST}/gradebook/change`;
         const options = {
             body: fd,
             headers: { Authorization: `Bearer ${token}` },
         };
         return this.send(url, "POST", options);
+    }
+
+    delete(token, id) {
+        const url = `${this.HOST}/gradebook/delete/${id}`;
+        const options = {
+            headers: { Authorization: `Bearer ${token}` },
+        };
+        return this.send(url, "DELETE", options);
     }
 }
 
