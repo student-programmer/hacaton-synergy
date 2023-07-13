@@ -37,6 +37,16 @@ Route::prefix("/gradebook")->group(function() {
 		->middleware('redirect_if_token_not_exist');
 });
 
+
+Route::prefix("/gradebook")->group(function() {
+	Route::post("/change", [GradebookController::class, "create"])
+		->middleware("check_token");
+
+	Route::get('/change', [GradebookController::class, 'renderGradebookAddPage'])
+		->middleware('redirect_if_token_not_exist');
+});
+
+
 Route::prefix("/user")->group(function() {
 	Route::get("/", [UserController::class, 'renderProfilePage'])->middleware("redirect_if_token_not_exist");
 	Route::get("/add", [UserController::class, 'renderAddPage'])
