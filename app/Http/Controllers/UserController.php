@@ -85,20 +85,22 @@ class UserController extends Controller
 			"role.string" => "Роль должна быть строкой"
 		]);
 
-        $find_by_nickname = User::where('nickname', $request->input('nickname'))->first();
+        $find_by_nickname = User::where('nickname', $data['nickname'])->first();
 
         if ($find_by_nickname) {
             return response(['success' => false, 'message' => 'Пользователь с таким никнеймом уже существует'], 400)
                 ->header('Content-Type', 'application/json');
         }
 
+		$hash_password = Hash::make($data['password']);
+
         User::create([
-            'nickname' => $request->input('nickname'),
-            'first_name' => $request->input('firstname'),
-            'second_name' => $request->input('lastname'),
-            'patronymic' => $request->input('patronymic'),
-            'role' => $request->input('role'),
-            'password' => Hash::make($request->input('password'))
+            'nickname' => $data['nickname'],
+            'first_name' => $data['firstname'],
+            'second_name' => $data['lastname'],
+            'patronymic' => $data['patronymic'],
+            'role' => $data['role'],
+            'password' => $hash_password
         ]);
 
         return response(['success' => true, 'message' => 'Пользователь создан'], 200)

@@ -36,7 +36,7 @@
       </div>
       <div class="mb-3">
           <select name='role' class="form-select">
-              <option value="user" selected>Ученик</option>
+              <option value="student" selected>Ученик</option>
               <option value="admin">Администратор</option>
               <option value="teacher">Учитель</option>
           </select>

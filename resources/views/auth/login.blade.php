@@ -22,7 +22,7 @@
     </div>
     <div class="mb-3">
       <div class="input-group-prepend">
-        <input type="radio" id="is-student" value="user" name="role" checked>
+        <input type="radio" id="is-student" value="student" name="role" checked>
         <label for="is-student">Войти как ученик</label>
       </div>
       <div class="input-group-prepend">
