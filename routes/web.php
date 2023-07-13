@@ -42,8 +42,8 @@ Route::prefix("/gradebook")->group(function() {
 	Route::post("/change", [GradebookController::class, "create"])
 		->middleware("check_token");
 
-	Route::get('/change', [GradebookController::class, 'renderGradebookAddPage'])
-		->middleware('redirect_if_token_not_exist');
+	Route::get('/edit/{id}', [GradeBookController::class, "renderEditPage"])
+		->middleware("redirect_if_token_not_exist");
 });
 
 

@@ -149,8 +149,8 @@ class GradebookController extends Controller
 
 		$data = $request->validate(
 			[
-				"nickname" => "string|min:6|max:15",
-				"num" => "integer",
+				"nickname" => "required|string|min:6|max:15",
+				"num" => "required|integer",
 				"faculty" => "string",
 				"specialization" => "string",
 				"num_course" => "integer",
@@ -160,14 +160,14 @@ class GradebookController extends Controller
 				'date_of_issue.date' => 'Дата выдачи должна иметь тип данных дата',
 				"nickname.min" => "Длина никнейма 8 символов",
 				"nickname.string" => "Никнейм должен быть строкой",
+				"nickname.required" => "Никнейм обязателен для заполнения",
+				"num.required" => "Номер книжки обязателен для заполнения",
 				"num.integer" => "Номер должен быть числом",
 				"faculty.string" => "Факультет должен быть строкой",
 				"specialization.string" => "Специальность должна быть строкой",
 				"num_course.integer" => "Номер курса должен быть числом",
 			]
 		);
-
-		$payload = [];
 
 		$find_gradebook = Gradebook::where("num", $data["num"])->first();
 
@@ -185,14 +185,24 @@ class GradebookController extends Controller
 				->header('Content-Type', 'application/json');
 		}
 
-		Gradebook::where("id", $id)->fill($payload);
+		unset($data["nickname"]);
 
-		return response(['success' => true, 'message' => 'Книжка обновлена'], 200)
+		$find_gradebook->fill($data);
+		$find_gradebook->save();
+	
+		return response(['success' => true, 'message' => 'Книжка обновлена', 'gradebook' => $find_gradebook], 200)
 				->header('Content-Type', 'application/json');
+	}
+
+	public function renderEditPage(Request $request, string $id)
+	{
+		$gradebook = Gradebook::where("id", $id)->first();
+
+		return view('change', ['gradebook' => $gradebook]);
 	}
 
 	public function delete(Request $request, string $id)
 	{
-
+		
 	}
 }
