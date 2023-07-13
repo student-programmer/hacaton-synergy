@@ -25,7 +25,11 @@ Route::prefix("/auth")->group(function() {
 
 // Gradebook
 Route::prefix("/gradebook")->group(function() {
-	Route::post("/create", [GradebookController::class, "create"])->middleware("check_token");
+	Route::post("/create", [GradebookController::class, "create"])
+		->middleware("check_token");
+
+	Route::get('/create', [GradebookController::class, 'renderGradebookAddPage'])
+		->middleware('redirect_if_token_not_exist');
 });
 
 Route::prefix("/user")->group(function() {
@@ -33,10 +37,8 @@ Route::prefix("/user")->group(function() {
 	Route::get("/add", [UserController::class, 'renderAddPage'])
 		->middleware("redirect_if_token_not_exist");
 
-	Route::post('/create', [UserController::class, 'create']);
+	Route::post('/create', [UserController::class, 'create'])
+		->middleware("check_token");
 });
 
 Route::view('/', 'index')->middleware('redirect_if_token_not_exist');
-
-
-

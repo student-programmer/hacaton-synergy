@@ -16,8 +16,11 @@ return new class extends Migration
 			Schema::create("gradebooks", function (Blueprint $table) {
 				$table->id();
 				$table->integer("num")->unique(); // номер
+				$table->string("first_name"); // имя
+				$table->string("second_name"); // фамилия
+				$table->string("patronymic"); // отчество
 				$table->string("faculty"); // факультет
-				$table->string("specialization"); // специальность 
+				$table->string("specialization"); // специальность
 				$table->date("date_of_issue"); // дата выдачи
 				$table->integer("num_course"); // номер курса
 				$table->timestamps();

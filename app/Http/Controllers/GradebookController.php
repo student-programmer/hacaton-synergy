@@ -4,36 +4,40 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Gradebook;
-use App\Models\Student;
-use App\Models\Teacher;
+use ReallySimpleJWT\Token;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class GradebookController extends Controller
 {
     public function create(Request $request)
 	{
-		if (!$request->is_admin)
-		{
-			return response(
-				[
-					"success" => false,
-					"message" => "Доступ закрыт"
-				],
-				400
-			)
-			->header("Content-Type", "application/json");
+		Log::info($request);
+		if (!$request->is_teacher) {
+			return response(['success' => false, 'message' => 'У вас нет доступа к данной операции'], 403)
+				->header('Content-Type', 'application/json');
+		}
+
+		if (!$request->is_authenticated) {
+			return response(['success' => false, 'message' => 'Для выполнения следующей операции необходимо авторизоваться'], 403)
+				->header('Content-Type', 'application/json');
 		}
 
 		$data = $request->validate(
 			[
+				"nickname" => "required|string|min:6|max:15",
 				"num" => "required|integer",
 				"faculty" => "required|string",
 				"specialization" => "required|string",
 				"num_course" => "required|integer",
-				"teacher_nick" => "required|string|min:15|max:15",
-				"student_nick" => "required|string|min:15|max:15"
+				'date_of_issue' => 'required|date',
 			],
 			[
+				'date_of_issue.required' => 'Дата выдачи обязательна для заполнения',
+				'date_of_issue.date' => 'Дата выдачи должна иметь тип данных дата',
+				"nickname.required" => "Никнейм обязательно для заполнения",
+				"nickname.min" => "Длина никнейма 8 символов",
+				"nickname.string" => "Никнейм должен быть строкой",
 				"num.required" => "Номер обязателен для заполнения",
 				"num.integer" => "Номер должен быть числом",
 				"faculty.required" => "Факультет обязателен для заполнения",
@@ -42,12 +46,6 @@ class GradebookController extends Controller
 				"specialization.string" => "Специальность должна быть строкой",
 				"num_course.required" => "Номер курса обязателен для заполнения",
 				"num_course.integer" => "Номер курса должен быть числом",
-				"teacher_nick.required" => "Ник учителя обязателен для заполнения",
-				"teacher_nick.min" => "Длина ника учителя 15 символов",
-				"teacher_nick.max" => "Длина имени учителя 15 символов",
-				"student_nick.required" => "Ник ученика обязателен для заполнения",
-				"student_nick.min" => "Длина ника ученика 15 символов",
-				"student_nick.max" => "Длина ника ученика 15 символов"
 			]
 		);
 
@@ -58,37 +56,24 @@ class GradebookController extends Controller
 			return response(
 				[
 					"success" => false,
-					"message" => "Зачетная книжка по такому идентификатору уже существует"
+					"message" => "Такая зачетная книжка уже существует"
 				],
 				400
 			)
 			->header("Content-Type", "application/json");
 		}
 
-		$find_teacher = User::where("nickname", $data["teacher_nick"])->first();
-
-		if (!$find_teacher)
-		{
-			return response(
-				[
-					"success" => false,
-					"message" => "Учителя по такому никнейму не существует"
-				],
-				400
-			)
-			->header("Content-Type", "application/json");
-		}
-
-		$find_student = User::where("nickname", $data["student_nick"])->first();
+		$find_student = User::where('nickname', $data['nickname'])
+			->where('role', 'is-student')->first();
 
 		if (!$find_student)
 		{
 			return response(
 				[
 					"success" => false,
-					"message" => "Ученика по такому никнейму не существует"
+					"message" => "Такого ученика не существует"
 				],
-				400
+				404
 			)
 			->header("Content-Type", "application/json");
 		}
@@ -97,7 +82,10 @@ class GradebookController extends Controller
 			"num" => $data["num"],
 			"faculty" => $data["faculty"],
 			"specialization" => $data["specialization"],
-			"date_of_issue" => time(),
+			"date_of_issue" => $data['date_of_issue'],
+			'first_name' => $find_student->first_name,
+			'second_name' => $find_student->second_name,
+			'patronymic' => $find_student->patronymic,
 			"num_course" => $data["num_course"]
 		];
 
@@ -106,10 +94,30 @@ class GradebookController extends Controller
 		return response(
 			[
 				"success" => true,
-				"message" => "Книжка добавлена"
+				"message" => "Зачетная книжка создана"
 			],
 			201
 		)
 		->header("Content-Type", "application/json");
 	}
+
+	public function renderGradebookAddPage(Request $request) {
+        if (!array_key_exists('token', $_COOKIE)) {
+            return $next($request);
+        }
+
+        $token = $_COOKIE['token'];
+		$secret = "sec!ReT423*&";
+		$validate_token = Token::validate($token, $secret);
+
+		if (!$validate_token) return $next($request);
+        
+		$token_data = Token::getPayload($token);
+		
+        if (!$token_data['is_teacher']) {
+            return abort(404);
+        }
+
+        return view('gradebook.add');
+    }
 }

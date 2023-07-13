@@ -29,10 +29,8 @@ class CheckToken
 		$token_data = Token::getPayload($token);
 
         if ($token_data) {
-            $is_teacher = $token_data['is_teacher'];
-            $is_admin = $token_data['is_admin'];
             $user_id = $token_data['id'];
-
+            
             $find_user = User::find($user_id);
 			$user_is_exist = (bool) $find_user;
 
@@ -40,8 +38,8 @@ class CheckToken
 				"is_authenticated" => $user_is_exist,
 				"user_id" => $user_id,
 				"user" => $find_user,
-				"is_admin" => $is_admin,
-				"is_teacher" => $is_teacher,
+				"is_admin" => $token_data['is_admin'],
+				"is_teacher" => $token_data['is_teacher'],
 			]);
         }
 

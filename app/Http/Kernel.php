@@ -66,8 +66,6 @@ class Kernel extends HttpKernel
         'redirect_if_token_not_exist' => \App\Http\Middleware\RedirectIfTokenNotExist::class,
         'redirect_if_token_exist' => \App\Http\Middleware\RedirectIfTokenExist::class,
         'check_token' => \App\Http\Middleware\CheckToken::class,
-        'check_admin' => \App\Http\Middleware\CheckOnAdmin::class,
-        'check_teacher' => \App\Http\Middleware\CheckTeacher::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
 }

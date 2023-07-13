@@ -1,25 +1,25 @@
-import User from "../classes/request/User";
-import changeStatePasswordType from "./changeStatePasswordType";
+import Gradebook from "../classes/request/Gradebook";
 import Cookie from "js-cookie";
 
 (function () {
-    const form = document.querySelector("#form-user-create");
+    const form = document.querySelector("#form-gradebook-create");
 
     if (!form) {
         return;
     }
 
-    changeStatePasswordType();
-
-    const alert = document.querySelector("#alert-add-user");
+    const alert = document.querySelector("#alert-add-gradebook");
 
     form.addEventListener("submit", (e) => {
         e.preventDefault();
 
         const fd = new FormData(form);
+
+        fd['date_of_issue'] = Date(fd['date_of_issue']);
+
         const token = Cookie.get("token");
 
-        new User()
+        new Gradebook()
             .create(fd, token)
             .then(({ success, message }) => {
                 alert.classList.remove("d-none");

@@ -47,6 +47,16 @@ class UserController extends Controller
     }
 
     public function create(Request $request) {
+		if (!$request->is_admin) {
+			return response(['success' => false, 'message' => 'У вас нет доступа к данной операции'], 403)
+				->header('Content-Type', 'application/json');
+		}
+
+		if (!$request->is_authenticated) {
+			return response(['success' => false, 'message' => 'Для выполнения следующей операции необходимо авторизоваться'], 403)
+				->header('Content-Type', 'application/json');
+		}
+
         $data = $request->validate([
 			"nickname" => "required|string|min:6|max:15",
 			"password" => "required|string|min:8",
