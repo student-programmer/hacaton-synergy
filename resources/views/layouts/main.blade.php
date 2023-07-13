@@ -12,5 +12,6 @@
     <x-header />
     @yield('content')
     @yield('scripts')
+    @vite(['resources/js/scripts/signout'])
 </body>
 </html>
