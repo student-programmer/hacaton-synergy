@@ -25,6 +25,8 @@
           <th>{{ $gradebook['specialization'] }}</th>
           <th>{{ $gradebook['date_of_issue'] }}</th>
           <th>{{ $gradebook['num_course'] }}</th>
+          <th><a href="gradebook/edit/{{$gradebook['id']}}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Изменить</a></th>
+          <th><button type="button" class="btn btn-danger" data-gradebook-id="{{ $gradebook['id']}} ">Удалить</button></th>
         </tr>
         @endforeach
       </tbody>

@@ -36,9 +36,9 @@
       </div>
       <div class="mb-3">
           <select name='role' class="form-select">
-              <option value="is-student" selected>Ученик</option>
-              <option value="is-admin">Администратор</option>
-              <option value="is-teacher">Учитель</option>
+              <option value="user" selected>Ученик</option>
+              <option value="admin">Администратор</option>
+              <option value="teacher">Учитель</option>
           </select>
       </div>
       <button type="submit" class="btn btn-outline-success">Создать</button>

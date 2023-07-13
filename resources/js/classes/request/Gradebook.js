@@ -11,6 +11,14 @@ class Gradebook extends Request {
 
         return this.send(url, "POST", options);
     }
+    change(fd, token){
+        const url = `${this.HOST}/gradebook/change`;
+        const options = {
+            body: fd,
+            headers: { Authorization: `Bearer ${token}` },
+        };
+        return this.send(url, "POST", options);
+    }
 }
 
 export default Gradebook;
