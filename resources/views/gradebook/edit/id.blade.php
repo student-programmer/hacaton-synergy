@@ -4,13 +4,13 @@
 
 @section('content')
 <div class="container">
-  <div class="alert alert-primary position-fixed top-0 end-0 d-none" role="alert" id="alert-add-gradebook"></div>
+  <div class="alert alert-primary position-fixed top-0 end-0 d-none" role="alert" id="alert-change-gradebook"></div>
   <div class="d-flex flex-column w-50">
       <h1>Изменение зачетной книжки</h1>
-    <form id="form-gradebook-create">
+    <form id="form-gradebook-change">
       <div class="mb-3">
           <label for="nickname" class="form-label">Никнейм</label>
-          <input type="text" class="form-control" name="nickname" id="nickname" value="{{ $gradebook['second_name'].' '.$gradebook['first_name'].' '.$gradebook['patronymic'] }}">
+          <input type="text" class="form-control" name="nickname" id="nickname" value="{{ $student['nickname'] }}">
       </div>
       <div class="mb-3">
           <label for="num" class="form-label">Номер</label>
@@ -39,5 +39,5 @@
 @endsection
 <!-- 
 @section('scripts')
-@vite(['resources/js/scripts/createGradebook'])
+@vite(['resources/js/scripts/changeGradebook'])
 @endsection -->

@@ -2,36 +2,39 @@ import Gradebook from "../classes/request/Gradebook";
 import Cookie from "js-cookie";
 
 (function () {
-    const form = document.querySelector("#form-gradebook-change");
+	const form = document.querySelector("#form-gradebook-change");
 
-    if (!form) {
-        return;
-    }
+	if (!form) {
+		return;
+	}
 
-    const alert = document.querySelector("#alert-change-gradebook");
+	const alert = document.querySelector("#alert-change-gradebook");
+	const gradebookId = window.location.href.split("/").at(-1);
 
-    form.addEventListener("submit", (e) => {
-        e.preventDefault();
+	form.addEventListener("submit", (e) => {
+		e.preventDefault();
 
-        const fd = new FormData(form);
-        const token = Cookie.get("token");
+		console.log(gradebookId);
 
-        new Gradebook()
-            .change(fd, token)
-            .then(({ success, message }) => {
-                alert.classList.remove("d-none");
-                alert.textContent = message;
+		const fd = new FormData(form);
+		const token = Cookie.get("token");
 
-                if (success) {
-                    alert.classList.add("alert-success");
-                    alert.classList.remove("alert-danger");
-                } else {
-                    alert.classList.remove("alert-success");
-                    alert.classList.add("alert-danger");
-                }
-            })
-            .catch((err) => {
-                throw err;
-            });
-    });
+		new Gradebook()
+			.change(fd, token, gradebookId)
+			.then(({ success, message }) => {
+				alert.classList.remove("d-none");
+				alert.textContent = message;
+
+				if (success) {
+					alert.classList.add("alert-success");
+					alert.classList.remove("alert-danger");
+				} else {
+					alert.classList.remove("alert-success");
+					alert.classList.add("alert-danger");
+				}
+			})
+			.catch((err) => {
+				throw err;
+			});
+	});
 })();
