@@ -6,13 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\Gradebook;
 use ReallySimpleJWT\Token;
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
 
 class GradebookController extends Controller
 {
     public function create(Request $request)
 	{
-		Log::info($request);
 		if (!$request->is_teacher) {
 			return response(['success' => false, 'message' => 'У вас нет доступа к данной операции'], 403)
 				->header('Content-Type', 'application/json');
@@ -64,7 +62,7 @@ class GradebookController extends Controller
 		}
 
 		$find_student = User::where('nickname', $data['nickname'])
-			->where('role', 'is-student')->first();
+			->where('role', 'user')->first();
 
 		if (!$find_student)
 		{
@@ -86,7 +84,9 @@ class GradebookController extends Controller
 			'first_name' => $find_student->first_name,
 			'second_name' => $find_student->second_name,
 			'patronymic' => $find_student->patronymic,
-			"num_course" => $data["num_course"]
+			"num_course" => $data["num_course"],
+			"student_id" => $find_student->id,
+			"teacher_id" => $request->user_id
 		];
 
 		Gradebook::create($payload);
