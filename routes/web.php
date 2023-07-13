@@ -41,4 +41,5 @@ Route::prefix("/user")->group(function() {
 		->middleware("check_token");
 });
 
-Route::view('/', 'index')->middleware('redirect_if_token_not_exist');
+Route::get('/', [GradebookController::class, 'renderMainPage'])
+	->middleware('redirect_if_token_not_exist');

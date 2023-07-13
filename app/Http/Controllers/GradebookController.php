@@ -120,4 +120,10 @@ class GradebookController extends Controller
 
         return view('gradebook.add');
     }
+
+	public function renderMainPage(Request $request) {
+		$gradebooks = Gradebook::all();
+
+		return view('index', ['gradebooks' => $gradebooks]);
+	}
 }

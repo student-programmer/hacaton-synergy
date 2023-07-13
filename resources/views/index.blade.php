@@ -4,35 +4,29 @@
 
 @section('content')
 <div class="container">
-  <h1>Главная</h1>
+  <h1>Список зачетных книжек</h1>
   <table class="table">
       <thead>
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
+          <th>Номер книжки</th>
+          <th>ФИО</th>
+          <th>Факультет</th>
+          <th>Специальность</th>
+          <th>Дата выдачи</th>
+          <th>Номер курса</th>
         </tr>
       </thead>
       <tbody>
+        @foreach ($gradebooks as $gradebook)
         <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
+          <th>{{ $gradebook['num'] }}</th>
+          <th>{{ $gradebook['second_name'].' '.$gradebook['first_name'].' '.$gradebook['patronymic'] }}</th>
+          <th>{{ $gradebook['faculty'] }}</th>
+          <th>{{ $gradebook['specialization'] }}</th>
+          <th>{{ $gradebook['date_of_issue'] }}</th>
+          <th>{{ $gradebook['num_course'] }}</th>
         </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
-        </tr>
+        @endforeach
       </tbody>
     </table>
 </div>
