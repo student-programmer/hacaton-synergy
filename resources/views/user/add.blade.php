@@ -49,5 +49,4 @@
 
 @section('scripts')
 @vite(['resources/js/scripts/createUser'])
-
 @endsection
