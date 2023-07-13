@@ -22,15 +22,15 @@
     </div>
     <div class="mb-3">
       <div class="input-group-prepend">
-        <input type="radio" id="is-student" value="is-student" name="role" checked>
+        <input type="radio" id="is-student" value="user" name="role" checked>
         <label for="is-student">Войти как ученик</label>
       </div>
       <div class="input-group-prepend">
-        <input type="radio" id="is-teacher" value="is-teacher" name="role">
+        <input type="radio" id="is-teacher" value="teacher" name="role">
         <label for="is-teacher">Войти как учитель</label>
       </div>
       <div class="input-group-prepend">
-        <input type="radio" id="is-admin" value="is-admin" name="role">
+        <input type="radio" id="is-admin" value="admin" name="role">
         <label for="is-admin">Войти как администратор</label>
       </div>
     </div>

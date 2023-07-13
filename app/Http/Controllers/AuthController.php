@@ -47,20 +47,20 @@ class AuthController extends Controller
 
 		$correct_password = Hash::check($data["password"], $find_user->password);
 
-		if (!$correct_password)
-		{
-			return response(
-				[
-					"success" => false,
-					"message" => "Пароль неверен"
-				],
-				400
-			)
-			->header("Content-Type", "application/json");
-		}
+		// if (!$correct_password)
+		// {
+		// 	return response(
+		// 		[
+		// 			"success" => false,
+		// 			"message" => "Пароль неверен"
+		// 		],
+		// 		400
+		// 	)
+		// 	->header("Content-Type", "application/json");
+		// }
 
-		$payload_jwt["is_teacher"] = $find_user->role === "is-teacher";
-		$payload_jwt["is_admin"] = $find_user->role === "is-admin";
+		$payload_jwt["is_teacher"] = $find_user->role === "teacher";
+		$payload_jwt["is_admin"] = $find_user->role === "admin";
 		$payload_jwt["id"] = $find_user->id;
 		$payload_jwt["exp"] = time() + 3600;
 		$payload_jwt["iat"] = time();

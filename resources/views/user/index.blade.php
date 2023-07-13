@@ -2,10 +2,10 @@
 $user_role = "Студент";
 
 switch ($user['role']) {
-  case 'is-admin':
+  case 'admin':
     $user_role = "Администратор";
     break;
-  case 'is-teacher':
+  case 'teacher':
     $user_role = "Учитель";
     break;
 }
