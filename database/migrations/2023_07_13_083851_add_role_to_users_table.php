@@ -9,11 +9,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+   public function up(): void
     {
-        Schema::table('gradebooks', function (Blueprint $table) {
-            $table->integer("student_id");
-			$table->foreign("student_id")->references("id")->on("users");
+        Schema::table('users', function (Blueprint $table) {
+            $table->string("role");
+			$table->foreign("role")->references("name")->on("roles");
         });
     }
 
@@ -22,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('gradebooks', function (Blueprint $table) {
-            $table->dropColumn('student_id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('role');
         });
     }
 };
