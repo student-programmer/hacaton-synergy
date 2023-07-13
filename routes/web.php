@@ -37,3 +37,6 @@ Route::prefix("/user")->group(function() {
 });
 
 Route::view('/', 'index')->middleware('redirect_if_token_not_exist');
+
+
+

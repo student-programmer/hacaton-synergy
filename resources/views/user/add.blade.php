@@ -7,7 +7,7 @@
   <div class="alert alert-primary position-fixed top-0 end-0 d-none" role="alert" id="alert-add-user"></div>
   <div class="d-flex flex-column w-50">
       <h1>Добавление пользователя</h1>
-    <form id="form-login">
+    <form id="form-user-create">
       <div class="mb-3">
           <label for="lastname" class="form-label">Фамилия</label>
           <input type="text" class="form-control" name="lastname" id="lastname">
@@ -35,14 +35,19 @@
           </div>
       </div>
       <div class="mb-3">
-          <select class="form-select">
-              <option value="student" selected>Ученик</option>
-              <option value="teacher">Учитель</option>
-              <option value="admin">Администратор</option>
+          <select name='role' class="form-select">
+              <option value="is-student" selected>Ученик</option>
+              <option value="is-admin">Администратор</option>
+              <option value="is-teacher">Учитель</option>
           </select>
       </div>
       <button type="submit" class="btn btn-outline-success">Создать</button>
     </form>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+@vite(['resources/js/scripts/createUser'])
+
 @endsection
