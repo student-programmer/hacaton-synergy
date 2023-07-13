@@ -10,9 +10,7 @@
 </head>
 <body>
     <x-header />
-    <div class="container">
-        @yield('content')
-    </div>
+    @yield('content')
     @yield('scripts')
 </body>
 </html>

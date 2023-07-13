@@ -12,7 +12,7 @@ $token_data = $parsed->getPayload();
 
 $default_nav = [
   'home' => ['route' => '/', 'name' => 'Главная'],
-  'profile' => ['route' => '/profile', 'name' => 'Профиль'],
+  'profile' => ['route' => '/user', 'name' => 'Профиль'],
 ];
 
 $nav_for_teacher = array_merge(

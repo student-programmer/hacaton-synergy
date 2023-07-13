@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use ReallySimpleJWT\Token;
-use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -23,13 +22,28 @@ class UserController extends Controller
         
 		$token_data = Token::getPayload($token);
 
-        Log::info($token_data);
-
         if (!$token_data['is_admin']) {
             return abort(404);
         }
 
         return view('user.add');
+    }
+
+    public function renderProfilePage(Request $request) {
+        if (!array_key_exists('token', $_COOKIE)) {
+            return $next($request);
+        }
+
+        $token = $_COOKIE['token'];
+		$secret = "sec!ReT423*&";
+		$validate_token = Token::validate($token, $secret);
+
+		if (!$validate_token) return $next($request);
+        
+		$token_data = Token::getPayload($token);
+        $find_user = User::findOrFail($token_data['id']);
+
+        return view('user.index', ['user' => $find_user]);
     }
 
     public function create(Request $request) {
