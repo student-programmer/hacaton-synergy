@@ -18,8 +18,8 @@ import Cookie from "js-cookie";
 
             new Gradebook()
                 .delete(token, idGradebook)
-                .then(({ message }) => {
-                    alert(message);
+                .then(() => {
+                    window.history.go(0);
                 })
                 .catch((err) => {
                     throw err;

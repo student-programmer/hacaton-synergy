@@ -204,7 +204,7 @@ class GradebookController extends Controller
 		
 		$student = User::where("id", $gradebook->student_id)->first();
 
-		return view('change', ['gradebook' => $gradebook, "student" => $student]);
+		return view('gradebook.edit', ['gradebook' => $gradebook, "student" => $student]);
 	}
 
 	public function delete(Request $request, string $id)
